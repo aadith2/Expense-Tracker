@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+/* ===============================
+   PROFESSIONAL DESIGN SYSTEM
+   =============================== */
+
+/* ---------- COLOR SYSTEM ---------- */
+/* Changed orange (warning) to neutral blue-gray */
+:root {
+    --bg-main: #f5f7fa;
+    --bg-card: #ffffff;
+
+    /* Primary system blue */
+    --primary: #2563eb;
+    --primary-soft: #e0e7ff;
+
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --border-light: #e5e7eb;
+
+    /* Semantic colors */
+    --success: #059669;
+    --danger: #dc2626;
+
+    /* NEW: neutral edit action */
+    --edit: #334155;
+    --edit-bg: #f1f5f9;
+}
+
+/* ---------- BASE ---------- */
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* ---------- TITLE ---------- */
+h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+/* ---------- FILTER CARD ---------- */
+form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+
+    /* COOL EFFECT: subtle lift */
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+form:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* ---------- SELECT ---------- */
+select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    font-size: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ---------- BUTTON ---------- */
+button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* ---------- TABLE ---------- */
+table {
+    width: 100%;
+    margin-top: 24px;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+}
+
+/* ---------- TABLE HEADER ---------- */
+th {
+    background: #f9fafb;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* ---------- TABLE CELLS ---------- */
+td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.15s ease;
+}
+
+/* COOL EFFECT: row focus highlight */
+tr:hover td {
+    background: var(--primary-soft);
+}
+
+/* ---------- ACTION BUTTONS ---------- */
+.btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.15s ease;
+}
+
+/* EDIT — changed from ORANGE to PROFESSIONAL NEUTRAL */
+.btn-edit {
+    color: var(--edit);
+    background: var(--edit-bg);
+    border: 1px solid #cbd5e1;
+}
+
+.btn-edit:hover {
+    background: #e2e8f0;
+    transform: translateY(-1px);
+}
+
+/* DELETE — remains semantic red */
+.btn-delete {
+    color: var(--danger);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.btn-delete:hover {
+    background: #fee2e2;
+    transform: translateY(-1px);
+}
+
+/* ---------- TOTAL EXPENSE ---------- */
+/* Changed accent from orange to primary blue */
+h3 {
+    margin-top: 26px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border-radius: 10px;
+
+    /* Professional left accent */
+    border-left: 5px solid var(--primary);
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: box-shadow 0.2s ease;
+}
+
+h3:hover {
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 16px;
+        border-radius: 10px;
+        border: 1px solid var(--border-light);
+        background: var(--bg-card);
+    }
+
+    td {
+        border-bottom: none;
+        padding: 10px 14px;
+    }
+}
+</style>
+
+<h1>Dashboard</h1>
+
+<form method="GET">
+    <label>Filter by Category</label>
+    <select name="category">
+        <option value="">All</option>
+        <option value="Food" {% if selected_food %}selected{% endif %}>Food</option>
+        <option value="Travel" {% if selected_travel %}selected{% endif %}>Travel</option>
+        <option value="Shopping" {% if selected_shopping %}selected{% endif %}>Shopping</option>
+        <option value="Rent" {% if selected_rent %}selected{% endif %}>Rent</option>
+        <option value="Others" {% if selected_others %}selected{% endif %}>Others</option>
+    </select>
+    <button type="submit">Apply</button>
+</form>
+
+<table>
+    <tr>
+        <th>Sl No</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for expense in expenses %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ expense.category }}</td>
+        <td>₹ {{ expense.amount }}</td>
+        <td>{{ expense.description }}</td>
+        <td>
+            <a class="btn btn-edit" href="{% url 'edit_expense' expense.id %}">Edit</a>
+            <a class="btn btn-delete" href="{% url 'delete_expense' expense.id %}"
+               onclick="return confirm('Are you sure?');">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Total Expense: ₹ {{ total }}</h3>
+
+{% endblock %}
