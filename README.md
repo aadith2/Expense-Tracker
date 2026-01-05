@@ -24,6 +24,8 @@ A simple expense tracker application to record, view, and manage personal expens
 1. Clone the repository:
    ```
    git clone https://github.com/aadith2/Expense-Tracker.git
+   '''
+   '''
    cd Expense-Tracker
    ```
 
