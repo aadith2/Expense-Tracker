@@ -22,19 +22,13 @@ A simple expense tracker application to record, view, and manage personal expens
 ## Installation
 
 1. Clone the repository:
-   ```
    git clone https://github.com/aadith2/Expense-Tracker.git
-   '''
-   '''
    cd Expense-Tracker
-   ```
 
 2. Install dependencies
  
 3. Run
-    ```
      python manage.py runserver
-     ```
 
 Adjust commands above to match the project's actual start script.
 
